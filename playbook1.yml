@@ -30,9 +30,6 @@
   
   - name: Yarn build
     shell: |
+          cd vue
           yarn
           yarn build
-          
-
-  - name: Reload Nginx
-    shell: nginx -s reload
