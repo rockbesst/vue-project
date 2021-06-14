@@ -23,7 +23,7 @@ resource "aws_instance" "VueServer" {
 	availability_zone = "eu-central-1a"
 	vpc_security_group_ids = [data.aws_security_group.mainSecGroup.id]
 	key_name = var.ssh_key
-	tags = merge(var.tags, {Name = "WebServer1"})
+	tags = merge(var.tags, {Name = "VueServer"})
 }
 
 data "aws_security_group" "mainSecGroup" {
