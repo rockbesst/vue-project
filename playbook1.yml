@@ -1,0 +1,17 @@
+---
+- name: Configure VueServer
+  hosts: vue
+  become: yes
+
+  tasks:
+  - name: Update yum rep
+    shell: yum -y update
+  
+  - name: Install Nginx
+    shell: 
+           amazon-linux-extras install -y nginx1
+           sudo service nginx start
+           chkconfig nginx on
+
+  - name: Reload Nginx
+    shell: nginx -s reload
