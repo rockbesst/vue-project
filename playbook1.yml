@@ -41,5 +41,5 @@
 
   - name: Copying site files
     copy:
-        src: {{site_src}}
-        dest: {{site_root_dir}}
+        src: "{{ site_src }}"
+        dest: "{{ site_root_dir }}"
