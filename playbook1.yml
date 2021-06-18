@@ -13,9 +13,7 @@
         state: latest
   
   - name: Install Nginx
-    yum:
-        name: nginx 
-        state: present
+    command: amazon-linux-extras install -y nginx1
   
   - name: Set autorun for Nginx
     service:
