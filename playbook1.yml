@@ -3,33 +3,43 @@
   hosts: vue
   become: yes
 
+  vars_files:
+  - vars.yml
+
   tasks:
   - name: Update yum rep
-    shell: yum -y update
+    yum: 
+        name: "*"
+        state: latest
   
   - name: Install Nginx
-    shell: |
-           amazon-linux-extras install -y nginx1
-           service nginx start
-           chkconfig nginx on
+    yum:
+        name: http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+        state: present
+  
+  - name: Set autorun for Nginx
+    service:
+        name: nginx
+        state: started
+        enabled: yes
 
-  - name: Install NodeJS
-    shell: |
-          curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
-          yum install -y nodejs
-  
-  - name: Install Yarn
-    shell: |
-          curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-          yum install -y yarn
-  
-  - name: Install Git & download site files
-    shell: |
-          yum install -y git
-          git clone https://github.com/vuejs/vue.git
-  
-  - name: Yarn build
-    shell: |
-          cd vue
-          yarn
-          yarn build
+  - name: Nginx configuring
+        template:
+           src: files/site.conf
+           dest: /etc/nginx/sites-available/{{ server_name }}.conf
+
+  - name: Enable site config template from Nginx available sites
+        file:
+           src: /etc/nginx/sites-available/{{ server_name }}.conf
+           dest: /etc/nginx/sites-enabled/{{ server_name }}.conf
+           state: link
+    
+  - name: Restart Nginx
+    service:
+        name: nginx
+        state: restarted
+
+  - name: Copying site files
+    copy:
+        src: {{site_src}}
+        dest: {{site_root_dir}}
