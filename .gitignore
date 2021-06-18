@@ -1,4 +1,4 @@
 keys
 *.tfstate
 .terraform*
-terraform.tfstate.backup
+terraform.tfstate*
