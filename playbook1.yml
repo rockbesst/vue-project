@@ -24,15 +24,15 @@
         enabled: yes
 
   - name: Nginx configuring
-        template:
-           src: files/site.conf
-           dest: /etc/nginx/sites-available/{{ server_name }}.conf
+    template:
+        src: files/site.conf
+        dest: /etc/nginx/sites-available/{{ server_name }}.conf
 
   - name: Enable site config template from Nginx available sites
-        file:
-           src: /etc/nginx/sites-available/{{ server_name }}.conf
-           dest: /etc/nginx/sites-enabled/{{ server_name }}.conf
-           state: link
+    file:
+        src: /etc/nginx/sites-available/{{ server_name }}.conf
+        dest: /etc/nginx/sites-enabled/{{ server_name }}.conf
+        state: link
     
   - name: Restart Nginx
     service:

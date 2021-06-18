@@ -1,2 +1,2 @@
 [vue]
-vue1 ansible_host=54.93.71.227
+vue1 ansible_host=18.156.80.25
